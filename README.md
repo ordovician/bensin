@@ -3,6 +3,18 @@
 
 Bensin is not being made to create the greatest 2D game engine every. The main motivation for the project is to explore both *Object Oriented Design*, *Data Oriented Design* and *Component Based* game engine architecture. A second goal is to explore how suitable the Go programming languge is for game development. The project will aim to use Go both for creating the engine itself and for scripting. Given the quick compile times of Go, duck typing and simple syntax I think Go might also be suitable for scripting.
 
+# Installation
+Make sure you have [Go installed](http://golang.org/doc/install). Then you need to make sure you have defined your `GOPATH` environmental variable to where you want to store your go packages and source code. Go to your `$GOPATH/src` directory and clone the bensin repository there:
+
+	$ cd $GOPATH/src
+	$ git clone git@github.com:ordovician/bensin.git
+
+Now building and installing Bensin is very easy since it is Go. We do not require any makefiles or other build system configuration files. In your terminal type:
+	
+	$ cd bensin
+	$ go build
+	$ go install
+	
 # Overview
 I have factored out the most generic code such as the `geom2d` package into separate git repositories since it can be easily used in other projects not related to *Bensin*. The packages `component` and `graphics` are quite specific to the game engine.
 
