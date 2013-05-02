@@ -14,13 +14,13 @@ type Transform struct {
 	Parent int
 }
 
-func (trans *Transform) Input(pos Point, dir Direction) {
-	trans.Local.SetPos(pos)
-	trans.Local.SetDir(dir)
+func (trans *Transform) Input(pl Placement) {
+	trans.Local.SetPos(pl.Pos)
+	trans.Local.SetDir(pl.Dir)
 }
 
-func (trans *Transform) Output() (pos Point, dir Direction) {
-	return trans.World.Pos(), trans.World.Dir()
+func (trans *Transform) Output() Placement {
+	return Placement{trans.World.Pos(), trans.World.Dir()}
 }
 
 func (trans *Transform) Update(t, dt float64) {

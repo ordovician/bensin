@@ -19,13 +19,13 @@ type Component interface {
 // Produce position an direction. Physics components e.g.
 type SourceComp interface {
 	Component
-	Output() (pos Point, dir Direction)
+	Output() Placement
 }
 
 // Consume position and direction. Colliders and Visuals e.g.
 type SinkComp interface {
 	Component
-	Input(pos Point, dir Direction)
+	Input(pl Placement)
 }
 
 // Transforms input to an output
@@ -33,6 +33,6 @@ type SinkComp interface {
 // and produce world coordinates.
 type FilterComp interface {
 	Component
-	Input(pos Point, dir Direction)
-	Output() (pos Point, dir Direction)
+	Input(pl Placement)
+	Output() Placement
 }

@@ -21,7 +21,7 @@ func (Source *SourceNode) Update(t, dt float64) {
 	// }
 }
 
-func (Source *SourceNode) Output() (pos Point, dir Direction) {
+func (Source *SourceNode) Output() Placement {
 	return Source.Comp.Output()
 }
 
@@ -33,8 +33,8 @@ type SinkNode struct {
 
 func (sink *SinkNode) Update(t, dt float64) {
 	sink.Source.Update(t, dt)
-	pos, dir := sink.Source.Output()
-	sink.Comp.Input(pos, dir)
+	pl := sink.Source.Output()
+	sink.Comp.Input(pl)
 	sink.Comp.Update(t, dt)
 }
 
@@ -48,13 +48,13 @@ type FilterNode struct {
 func (filter *FilterNode) Update(t, dt float64) {
 	// if filter.Dirty {
 		filter.Source.Update(t, dt)
-		pos, dir := filter.Source.Output()
-		filter.Comp.Input(pos, dir)
+		pl := filter.Source.Output()
+		filter.Comp.Input(pl)
 		filter.Comp.Update(t, dt)
 		filter.Dirty = false
 	// }
 }
 
-func (filter *FilterNode) Output() (pos Point, dir Direction) {
+func (filter *FilterNode) Output() Placement {
 	return filter.Comp.Output()
 }

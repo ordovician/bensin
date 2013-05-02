@@ -19,13 +19,13 @@ type Body struct {
 	AngAccel Radian
 }
 
-func (body *Body) Input(pos Point, dir Direction) {
-	body.Position = pos
-	body.Orientation = dir.Angle()
+func (body *Body) Input(pl Placement) {
+	body.Position = pl.Pos
+	body.Orientation = pl.Dir.Angle()
 }
 
-func (body *Body) Output() (pos Point, dir Direction) {
-	return body.Position, DirectionWithAngle(body.Orientation)
+func (body *Body) Output() Placement {
+	return Placement{body.Position, DirectionWithAngle(body.Orientation)}
 }
 
 func (body *Body) Advance(dt float64) {

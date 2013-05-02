@@ -22,9 +22,9 @@ type ShapeVisual struct {
 	Position Point
 }
 
-func (vis *ShapeVisual) Input(pos Point, dir Direction) {
-	vis.Position = pos
-	vis.Direction = dir
+func (vis *ShapeVisual) Input(pl Placement) {
+	vis.Position = pl.Pos
+	vis.Direction = pl.Dir
 }
 
 func (vis *ShapeVisual) Update(t, dt float64) {
