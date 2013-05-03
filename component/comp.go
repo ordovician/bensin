@@ -11,6 +11,13 @@ import (
 	. "geom2d"
 )
 
+// Anything which can be rendered on a screen is a visual.
+// A visual is meant to be part of an entity and not used by itself
+type Visual interface {
+	Input(pl Placement)
+	Render(t, dt float64)
+}
+
 // Minimum interface to a component. 
 type Component interface {
 	Update(t, dt float64)	

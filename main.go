@@ -11,6 +11,7 @@ import (
 	"os"
 	"time"
 	"bensin/graphics"
+	. "geom2d"
 )
 
 const (
@@ -19,7 +20,7 @@ const (
 	Height = 640
 )
 
-var player *Player
+var player *Entity
 
 func main() {
 	if err := glfw.Init(); err != nil {
@@ -62,12 +63,12 @@ func main() {
 func initScene() (err error) {
 	gl.Viewport(0, 0, Width, Height)
 	graphics.InitSys()
-	player = NewPlayer()
+	player = NewPlayer(Point{0, 0})
 	return nil
 }
 
 func render(t time.Time) {
 	gl.Clear(gl.COLOR_BUFFER_BIT)
 	player.Update(0, 0.1)
-	//player.Render(0, 0.01)
+	player.Render(0, 0.01)
 }

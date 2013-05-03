@@ -2,49 +2,56 @@ package main
 
 import (
 	. "geom2d"
+	"bensin/component"
 )
 
-type Entity interface {
-	Parent() Entity
-	Update(t, dt float64)
-	Local() Matrix3x3
-	World() Matrix3x3
-}
-
-type LeafEntity struct {
-	parent Entity
-	local, world Matrix3x3
-}
-
-func (entity *LeafEntity) Parent() Entity {
-	return entity.parent
-}
-
-func (entity *LeafEntity) World() Matrix3x3 {
-	return entity.world
-}
-
-func (entity *LeafEntity) Local() Matrix3x3 {
-	return entity.local
-}
-
-func (entity *LeafEntity) UpdateWorld() {
-	entity.world = entity.parent.World().Mul(entity.local)
-}
-
-func (entity *LeafEntity) Update(t, dt float64) {
+// A Game object. Players, monsters, bullets, rocks etc are Entities.
+// An entity has a location and orientation relative to its parent. This is defined by
+// the Local matrix. The World matrix is its absolute position and orientation in the world.
+// it is calculated by multiplying the local matrix with the world matrix of the parent.
+//
+// Since there is no inheritance in Go, we use the decorator and composite pattern to implement
+// concrete entity objects. Both Visual and Behavior should be defined by composition of other
+// components or visuals or by chaining following the decorator pattern.
+type Entity struct {
+	component.Transform
+	Visual component.Visual
+	Behavior component.Component
 	
+	Children []Entity
 }
 
-type ParentEntity struct {
-	LeafEntity
-	children []Entity
+type noBehavior struct {}
+func (comp noBehavior) Update(t, dt float64) {}
+type invisibleVisual struct {}
+func (vis invisibleVisual) Input(pl Placement) {}
+func (vis invisibleVisual) Render(t, dt float64) {}
+
+var inactive noBehavior
+var invisible invisibleVisual
+
+// Create a new entity without a parent at absolute position pos
+func NewEntity(pos Point) *Entity {
+	entity := new(Entity)
+	entity.Transform = component.NewTransform(pos)
+	entity.Visual = &invisible
+	entity.Behavior = &inactive
+	
+	return entity
 }
 
-func (entity *ParentEntity) Update(t, dt float64) {
-	entity.LeafEntity.UpdateWorld()
-	for _, child := range entity.children {
+func (entity *Entity) Update(t, dt float64) {	
+	entity.Behavior.Update(t, dt)
+	
+	for _, child := range entity.Children {
+		child.Transform.SetParent(entity.World)
 		child.Update(t, dt)
 	}
+}
+
+// Draws entity on screen. 
+func (entity *Entity) Render(t, dt float64) {
+	entity.Visual.Input(entity.Transform.Output())
+	entity.Visual.Render(t, dt)
 }
 

@@ -27,24 +27,6 @@ func (vis *ShapeVisual) Input(pl Placement) {
 	vis.Direction = pl.Dir
 }
 
-func (vis *ShapeVisual) Update(t, dt float64) {
-	vis.Render(t, dt)
-}
-
-type ShapeVisualMgr struct {
-	Comps []ShapeVisual
-}
-
-func (mgr *ShapeVisualMgr) Render(t, dt float64) {
-	
-	for _, ShapeVisual := range mgr.Comps {
-		ShapeVisual.Render(t, dt)
-	}
-	
-	gl.Color4f(1, 1, 1, 1)
-	gl.BindBuffer(gl.ARRAY_BUFFER, 0)
-}
-
 func makePolygon(poly Polygon, viz *ShapeVisual) {
 	count := gl.Sizeiptr(len(poly))
 	size  := gl.Sizeiptr(unsafe.Sizeof(poly[0]))

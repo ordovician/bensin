@@ -10,57 +10,36 @@ import (
 	. "geom2d"
 )
 
-type Player struct {
-	body *Body
+type playerBehavior struct {
 	transform *Transform
-	visual *ShapeVisual
-	sinkNodes []SinkNode
+	body *Body
 }
 
-func NewPlayer() *Player {
-	var player Player
+func NewPlayer(pos Point) *Entity {
+	player := NewEntity(pos)
+	behavior := new(playerBehavior)
+	behavior.transform = &player.Transform
+	player.Behavior = behavior
 	
 	poly := Polygon{Point{-2, -1},
 					Point{2, 0},
 					Point{-2, 1}}
 	visual := NewShapeVisual(poly)
 	visual.Color = Color{0, 1, 0, 0.5}
-	player.visual = visual
+	player.Visual = visual
 	
 	var body Body
 	body.Speed = 1
 	body.Orientation = Rad(180)
 	body.Position = Point{3, 3}
-	player.body = &body
+	behavior.body = &body
 	
-	var transform Transform
-	transform.Parent = -1
-	transform.Local = NewMatrix(body.Position, body.Orientation)
-	player.transform = &transform
-	
-	bodyNode := SourceNode{true, &body}
-	transNode := FilterNode{true, &transform, &bodyNode}
-	visualNode := SinkNode{visual, &transNode}
-	player.sinkNodes = append(player.sinkNodes, visualNode)
-	
-	return &player
+	return player
 }
 
-func (player *Player) Update(t, dt float64) {
-	for _, sink := range player.sinkNodes {
-		sink.Update(t, dt)
-	}
-	
-	
-	// player.body.Advance(dt)
-	// pos := player.body.Position
-	// dir := player.body.Orientation
-	// 
-	// player.transform.Local = NewMatrix(pos, dir)
-	// player.visual.Direction = player.transform.Local.Dir()
-	// player.visual.Position = pos
-}
 
-// func (player *Player) Render(t, dt float64) {
-// 	player.visual.Render(t, dt)
-// }
+func (pb *playerBehavior) Update(t, dt float64) {
+	pb.body.Update(t, dt)
+	pb.transform.Input(pb.body.Output())
+	pb.transform.Update(t, dt)
+}
