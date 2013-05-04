@@ -12,6 +12,7 @@ import (
 	"time"
 	"bensin/graphics"
 	. "geom2d"
+	. "bensin/base"
 )
 
 const (

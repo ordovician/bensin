@@ -8,6 +8,7 @@ import (
 	. "bensin/component"
 	. "bensin/graphics"
 	. "geom2d"
+	. "bensin/base"
 )
 
 type playerBehavior struct {
