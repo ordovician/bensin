@@ -17,7 +17,7 @@ type Entity struct {
 	component.Transform
 	Visual component.Visual
 	Behavior component.Component
-	
+	Collider component.Collider
 	Children []Entity
 }
 
@@ -41,8 +41,10 @@ func NewEntity(pos Point) *Entity {
 }
 
 func (entity *Entity) Update(t, dt float64) {	
+
 	entity.Behavior.Update(t, dt)
-	
+	entity.Collider.Input(entity.Output())
+	entity.Collider.UpdateShapePlacement()
 	for _, child := range entity.Children {
 		child.Transform.SetParent(entity.World)
 		child.Update(t, dt)
@@ -55,3 +57,10 @@ func (entity *Entity) Render(t, dt float64) {
 	entity.Visual.Render(t, dt)
 }
 
+func (entity *Entity) Inside(q Point) bool {
+	return entity.Collider.Inside(q)
+}
+
+func (entity *Entity) Intersect(shape Shape) bool {
+	return entity.Collider.Intersect(shape)
+}

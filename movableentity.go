@@ -28,7 +28,7 @@ func NewMovableEntity(pos Point, poly Polygon) *Entity {
 	movable.Visual = visual
 	
 	var body Body
-	body.Speed = 1
+	body.Speed = 0.5
 	body.Orientation = Rad(180)
 	body.Position = Point{3, 3}
 	behavior.body = &body

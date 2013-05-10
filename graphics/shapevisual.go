@@ -60,7 +60,7 @@ func (vis *ShapeVisual) Render(t, dt float64) {
 	gl.BindBuffer(gl.ARRAY_BUFFER, vis.bufferObject)
 	gl.VertexPointer(2, gl.FLOAT, 0, gl.Pointer(nil))
 
-	var matrix [16]gl.Float
+	var matrix Matrix4x4
 	matrix[10], matrix[15] = 1, 1
 	
 	gl.PushMatrix()
@@ -68,14 +68,7 @@ func (vis *ShapeVisual) Render(t, dt float64) {
 		
 		// copy our orientation information into matrix, so
 		// OpenGL will position and rotate our shape correctly
-		dirX, dirY := gl.Float(vis.Direction.X), gl.Float(vis.Direction.Y)
-		matrix[0] = dirX
-		matrix[1] = dirY
-		matrix[4] = -dirY
-		matrix[5] = dirX
-		
-		matrix[12] = gl.Float(vis.Position.X)
-		matrix[13] = gl.Float(vis.Position.Y)
+		matrix.Set(vis.Position, vis.Direction)
 		
 		gl.LoadMatrixf(&matrix[0])
 		gl.DrawArrays(vis.mode, 0, vis.noVerticies)

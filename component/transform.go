@@ -39,8 +39,13 @@ func (trans *Transform) Output() Placement {
 	return Placement{trans.World.Pos(), trans.World.Dir()}
 }
 
+// Update world transform
+func (trans *Transform) UpdateWorld() {
+	trans.World = trans.parent.Mul(trans.Local)
+}
+
 // Update world matrix based on local matrix and world matrix of parent.
 // Before calling this you must call trans.SetParent()
 func (trans *Transform) Update(t, dt float64) {
-	trans.World = trans.parent.Mul(trans.Local)
+	trans.UpdateWorld()
 }
