@@ -10,9 +10,10 @@ import (
 	"github.com/jteeuwen/glfw"
 	"os"
 	"time"
-	"bensin/graphics"
+	//"bensin/graphics"
 	. "geom2d"
 	. "bensin/base"
+	"bensin/graphics/screen"
 )
 
 const (
@@ -22,6 +23,17 @@ const (
 )
 
 var player *Entity
+
+func mouseButtonPressed(button, state int) {
+	x, y := glfw.MousePos()
+	p := screen.ToWorld(x, y)
+	if button == glfw.Mouse1 && state == glfw.KeyPress {
+		player.Visual.SetColor(1, 0, 0, 1)
+		if player.Inside(p) {
+			player.Visual.SetColor(1, 1, 0, 1)
+		}
+	}
+}
 
 func main() {
 	if err := glfw.Init(); err != nil {
@@ -40,6 +52,8 @@ func main() {
 
 	glfw.SetSwapInterval(1)
 	glfw.SetWindowTitle(Title)
+
+	glfw.SetMouseButtonCallback(mouseButtonPressed)
 
 	if err := gl.Init(); err != nil {
 		fmt.Fprintf(os.Stderr, "gl: %s\n", err)
@@ -62,8 +76,7 @@ func main() {
 }
 
 func initScene() (err error) {
-	gl.Viewport(0, 0, Width, Height)
-	graphics.InitSys()
+	screen.InitScreen(Width, Height, Rect{Point{-20, -20}, Point{20, 20}})
 	player = NewPlayer(Point{0, 0})
 	return nil
 }

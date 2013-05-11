@@ -15,11 +15,27 @@ type Color [4]gl.Float
 
 type ShapeVisual struct {
 	bufferObject gl.Uint
-	Color Color
+	color Color
 	mode gl.Enum
 	noVerticies gl.Sizei
 	Direction Direction
 	Position Point
+}
+
+func (vis *ShapeVisual) SetColor(red, green, blue, alpha float64) {
+	vis.color[0] = gl.Float(red)
+	vis.color[1] = gl.Float(green)
+	vis.color[2] = gl.Float(blue)
+	vis.color[3] = gl.Float(alpha)
+	
+}
+
+func (vis *ShapeVisual) Color() (red, green, blue, alpha float64) {
+	red = float64(vis.color[0])
+	green = float64(vis.color[1])
+	blue = float64(vis.color[2])
+	alpha = float64(vis.color[3])
+	return
 }
 
 func (vis *ShapeVisual) Input(pl Placement) {
@@ -64,7 +80,7 @@ func (vis *ShapeVisual) Render(t, dt float64) {
 	matrix[10], matrix[15] = 1, 1
 	
 	gl.PushMatrix()
-		gl.Color4fv(&vis.Color[0])
+		gl.Color4fv(&vis.color[0])
 		
 		// copy our orientation information into matrix, so
 		// OpenGL will position and rotate our shape correctly

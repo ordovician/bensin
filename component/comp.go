@@ -15,6 +15,8 @@ import (
 // A visual is meant to be part of an entity and not used by itself
 type Visual interface {
 	Input(pl Placement)
+	SetColor(red, green, blue, alpha float64)
+	Color() (red, green, blue, alpha float64)
 	Render(t, dt float64)
 }
 

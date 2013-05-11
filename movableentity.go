@@ -24,7 +24,7 @@ func NewMovableEntity(pos Point, poly Polygon) *Entity {
 	
 
 	visual := NewShapeVisual(poly)
-	visual.Color = Color{0, 1, 0, 0.5}
+	visual.SetColor(0, 1, 0, 0.5)
 	movable.Visual = visual
 	
 	var body Body

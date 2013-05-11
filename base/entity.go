@@ -26,6 +26,8 @@ func (comp noBehavior) Update(t, dt float64) {}
 type invisibleVisual struct {}
 func (vis invisibleVisual) Input(pl Placement) {}
 func (vis invisibleVisual) Render(t, dt float64) {}
+func (vis invisibleVisual) SetColor(red, green, blue, alpha float64) {}
+func (vis invisibleVisual) Color() (red, green, blue, alpha float64) { return 0,  0, 0, 0}
 
 var inactive noBehavior
 var invisible invisibleVisual
