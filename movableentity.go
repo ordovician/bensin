@@ -13,7 +13,7 @@ import (
 
 type movableBehavior struct {
 	transform *Transform
-	body *Body
+	motion *RotMotion
 }
 
 func NewMovableEntity(pos Point, poly Polygon) *Entity {
@@ -26,20 +26,20 @@ func NewMovableEntity(pos Point, poly Polygon) *Entity {
 	visual.SetColor(0, 1, 0, 0.5)
 	movable.Visual = visual
 	
-	var body Body
-	body.Speed = 0.5
-	body.Orientation = Rad(180)
-	body.Position = Point{3, 3}
-	behavior.body = &body
+	var motion RotMotion
+	motion.Speed = 0.5
+	motion.Orientation = Rad(180)
+	motion.Position = Point{3, 3}
+	behavior.motion = &motion
 	
-	movable.Collider.Init(pos, DirectionWithAngle(body.Orientation), poly)
+	movable.Collider.Init(pos, DirectionWithAngle(motion.Orientation), poly)
 
 	return movable
 }
 
 
 func (mb *movableBehavior) Update(t, dt float64) {
-	mb.body.Update(t, dt)
-	mb.transform.Input(mb.body.Output())
+	mb.motion.Update(t, dt)
+	mb.transform.Input(mb.motion.Output())
 	mb.transform.Update(t, dt)
 }
