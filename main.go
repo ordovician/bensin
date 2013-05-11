@@ -28,6 +28,7 @@ func mouseButtonPressed(button, state int) {
 	x, y := glfw.MousePos()
 	p := screen.ToWorld(x, y)
 	if button == glfw.Mouse1 && state == glfw.KeyPress {
+		fmt.Printf("clicked mouse  (%d, %d) world (%f,  %f)\n", x, y, p.X, p.Y)
 		player.Visual.SetColor(1, 0, 0, 1)
 		if player.Inside(p) {
 			player.Visual.SetColor(1, 1, 0, 1)
@@ -84,5 +85,5 @@ func initScene() (err error) {
 func render(t time.Time) {
 	gl.Clear(gl.COLOR_BUFFER_BIT)
 	player.Update(0, 0.1)
-	player.Render(0, 0.01)
+	player.Render(0, 0.1)
 }

@@ -21,8 +21,7 @@ func NewMovableEntity(pos Point, poly Polygon) *Entity {
 	behavior := new(movableBehavior)
 	behavior.transform = &movable.Transform
 	movable.Behavior = behavior
-	
-
+		
 	visual := NewShapeVisual(poly)
 	visual.SetColor(0, 1, 0, 0.5)
 	movable.Visual = visual
@@ -33,6 +32,8 @@ func NewMovableEntity(pos Point, poly Polygon) *Entity {
 	body.Position = Point{3, 3}
 	behavior.body = &body
 	
+	movable.Collider.Init(pos, DirectionWithAngle(body.Orientation), poly)
+
 	return movable
 }
 

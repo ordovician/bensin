@@ -16,6 +16,11 @@ type Collider struct {
 
 func NewCollider(pos Point, dir Direction, poly Polygon) *Collider {
 	coll := new(Collider)
+	coll.Init(pos, dir, poly)
+	return coll
+}
+
+func (coll *Collider) Init(pos Point, dir Direction, poly Polygon) {
 	coll.world = Identity()
 	coll.world.SetPos(pos)
 	coll.world.SetDir(dir)
@@ -23,7 +28,6 @@ func NewCollider(pos Point, dir Direction, poly Polygon) *Collider {
 	coll.transShape = make(Polygon, len(poly))
 	copy(coll.OrigShape, poly)
 	coll.UpdateShapePlacement()
-	return coll
 }
 
 func (coll *Collider) Input(pl Placement) {
