@@ -2,6 +2,7 @@
 // Use of this source code is governed by a GPL-style
 // license that can be found in the LICENSE file.
 
+// Represents the area on which one draws sprites or other shapes.
 package screen
 
 import (

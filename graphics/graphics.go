@@ -2,6 +2,8 @@
 // Use of this source code is governed by a GPL-style
 // license that can be found in the LICENSE file.
 
+// OpenGL related code. Does not contain code related to the windowing system, so 
+// there is a free choice in using glfw, glu or SDL. 
 package graphics
 
 import (
